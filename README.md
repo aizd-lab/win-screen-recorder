@@ -1,5 +1,7 @@
 # Windows 屏幕录制器
 
+![CI](https://github.com/aizd-lab/win-screen-recorder/actions/workflows/ci.yml/badge.svg)
+
 一个轻量的 Windows 屏幕录制软件：**Python + mss + OpenCV** 实现，无需 ffmpeg，单机运行、无广告。
 
 ## 功能
@@ -42,12 +44,26 @@ python main.py --cli
 
 ```
 win-screen-recorder/
-├── main.py          # 入口（GUI / CLI）
-├── recorder.py      # 录制核心（mss 截屏 + OpenCV 编码）
-├── gui.py           # tkinter 图形界面
-├── requirements.txt # 依赖
+├── main.py                  # 入口（GUI / CLI）
+├── recorder.py              # 录制核心（mss 截屏 + OpenCV 编码）
+├── gui.py                   # tkinter 图形界面
+├── tests/test_recorder.py   # pytest 单元测试 + 真实录制集成测试
+├── .github/workflows/ci.yml # GitHub Actions：Ubuntu/Windows 双系统自动测试
+├── requirements.txt         # 依赖
 └── README.md
 ```
+
+## 测试与 CI
+
+```bash
+pip install pytest
+pytest -v
+```
+
+每次 push 或提 PR 时，GitHub Actions 会在 **Ubuntu 和 Windows** 两个系统上自动运行测试：
+
+- 单元测试：参数校验、状态机异常路径（任何环境可跑）
+- 集成测试：真实抓屏录制 1.5 秒，验证生成的 MP4 可解码（仅在有显示器的环境运行，如 Windows 运行器）
 
 ## 实现原理
 
